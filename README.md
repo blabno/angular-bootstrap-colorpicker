@@ -1,13 +1,15 @@
 [![devDependency Status](https://david-dm.org/buberdds/angular-bootstrap-colorpicker/dev-status.svg?branch=master)](https://david-dm.org/buberdds/angular-bootstrap-colorpicker#info=devDependencies)
 [![Build Status](https://travis-ci.org/buberdds/angular-bootstrap-colorpicker.svg?branch=master)](https://travis-ci.org/buberdds/angular-bootstrap-colorpicker)
 
-angular-bootstrap-colorpicker
-=============================
+angular-bootstrap-colorpicker for ionic version 1 application
+=============================================================
+
+####Forked from https://github.com/buberdds/angular-bootstrap-colorpicker
 
 This version contains a native AngularJS directive based on bootstrap-colorpicker jQuery library.<br />
 No dependency on jQuery or jQuery plugin is required.<br />
 
-<a href="http://codepen.io/buberdds/full/fBAsr/" target="_blank">Demo page (Bootstrap v3.x.x)</a>
+<a href="http://codepen.io/rajnandan1/pen/KWXgEg" target="_blank">Demo page (Bootstrap v3.x.x)</a>
 
 Previous releases:
   - <a href="https://github.com/buberdds/angular-bootstrap-colorpicker/tree/2.0">branch 2.0</a> (Bootstrap v2.x.x)
