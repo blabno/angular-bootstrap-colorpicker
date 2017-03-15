@@ -4,7 +4,7 @@
 angular-bootstrap-colorpicker for ionic version 1 application
 =============================================================
 
-####Forked from https://github.com/buberdds/angular-bootstrap-colorpicker
+Forked from https://github.com/buberdds/angular-bootstrap-colorpicker
 
 This version contains a native AngularJS directive based on bootstrap-colorpicker jQuery library.<br />
 No dependency on jQuery or jQuery plugin is required.<br />
