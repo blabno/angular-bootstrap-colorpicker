@@ -34,6 +34,10 @@
     "bootstrap"
   ],
   "author": "Michal Zielenkiewicz",
+  "contributors" : [
+    { "name" : "Borowy Tomasz",
+      "email" : "borowy.tomasz@gmail.com"}
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/buberdds/angular-bootstrap-colorpicker/issues"
