@@ -289,7 +289,6 @@ angular.module('colorpicker.module', [])
                       '</div>',
               colorpickerTemplate = angular.element(template),
               pickerColor = Color,
-              componentSizePx,
               sliderAlpha,
               sliderHue = colorpickerTemplate.find('colorpicker-hue'),
               sliderSaturation = colorpickerTemplate.find('colorpicker-saturation'),
@@ -303,41 +302,29 @@ angular.module('colorpicker.module', [])
             'height' : componentSizePx
           });
           sliderHue.css('height', componentSizePx);
-		function touchHandler(event)
-		{
-			var touches = event.changedTouches,
-				first = touches[0],
-				type = "";
-			switch(event.type)
-			{
-				case "touchstart": type = "mousedown"; break;
-				case "touchmove":  type = "mousemove"; break;        
-				case "touchend":   type = "mouseup";   break;
-				default:           return;
-			}
+          function touchHandler(event)
+          {
+              var touches = event.changedTouches,
+                  first = touches[0],
+                  type = '';
+              switch(event.type)
+              {
+                  case 'touchstart': type = 'mousedown'; break;
+                  case 'touchmove':  type = 'mousemove'; break;
+                  case 'touchend':   type = 'mouseup';   break;
+                  default:           return;
+              }
 
-			// initMouseEvent(type, canBubble, cancelable, view, clickCount, 
-			//                screenX, screenY, clientX, clientY, ctrlKey, 
-			//                altKey, shiftKey, metaKey, button, relatedTarget);
+              var simulatedEvent = document.createEvent('MouseEvent');
+              simulatedEvent.initMouseEvent(type, true, true, window, 1,
+                                            first.screenX, first.screenY,
+                                            first.clientX, first.clientY, false,
+                                            false, false, false, 0, null);
 
-			var simulatedEvent = document.createEvent("MouseEvent");
-			simulatedEvent.initMouseEvent(type, true, true, window, 1, 
-										  first.screenX, first.screenY, 
-										  first.clientX, first.clientY, false, 
-										  false, false, false, 0/*left*/, null);
+              first.target.dispatchEvent(simulatedEvent);
+              event.preventDefault();
+          }
 
-			first.target.dispatchEvent(simulatedEvent);
-			event.preventDefault();
-		}
-
-			function init() 
-			{
-				document.addEventListener("touchstart", touchHandler, true);
-				document.addEventListener("touchmove", touchHandler, true);
-				document.addEventListener("touchend", touchHandler, true);
-				document.addEventListener("touchcancel", touchHandler, true);    
-			}
-			init() ;
           if (withInput) {
             var pickerColorInput = colorpickerTemplate.find('input');
             pickerColorInput.css('width', componentSizePx);
@@ -387,7 +374,7 @@ angular.module('colorpicker.module', [])
                 Slider.setHue(event, fixedPosition, componentSize);
                 bindMouseEvents();
               })
-              .on('mouseup', function(event){
+              .on('mouseup', function(){
                 emitEvent('colorpicker-selected-hue');
               });
 
@@ -403,7 +390,7 @@ angular.module('colorpicker.module', [])
                 Slider.setSaturation(event, fixedPosition, componentSize);
                 bindMouseEvents();
               })
-              .on('mouseup', function(event){
+              .on('mouseup', function(){
                 emitEvent('colorpicker-selected-saturation');
               });
 
@@ -543,7 +530,11 @@ angular.module('colorpicker.module', [])
               emitEvent('colorpicker-shown');
 
               if (inline === false) {
-                // register global mousedown event to hide the colorpicker
+                // register global mouse/touch event
+                $document.on('touchstart', touchHandler);
+                $document.on('touchmove', touchHandler);
+                $document.on('touchend', touchHandler);
+                $document.on('touchcancel', touchHandler);
                 $document.on('mousedown', documentMousedownHandler);
               }
 
@@ -580,8 +571,13 @@ angular.module('colorpicker.module', [])
             if (colorpickerTemplate.hasClass('colorpicker-visible')) {
               colorpickerTemplate.removeClass('colorpicker-visible');
               emitEvent('colorpicker-closed');
-              // unregister the global mousedown event
+              // unregister the global mouse/touch event
+              $document.off('touchstart', touchHandler);
+              $document.off('touchmove', touchHandler);
+              $document.off('touchend', touchHandler);
+              $document.off('touchcancel', touchHandler);
               $document.off('mousedown', documentMousedownHandler);
+
 
               if (attrs.colorpickerIsOpen) {
                 $scope[attrs.colorpickerIsOpen] = false;
